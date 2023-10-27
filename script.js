@@ -88,8 +88,19 @@ var upperCasedCharacters = [
   'Z'
 ];
 
+// Object to store password elements
+var password={
+  minLength: 8,
+  maxLength: 128,
+  specialCharacters,
+  numericCharacters,
+  lowerCasedCharacters,
+  upperCasedCharacters
+};
+
 // Function to prompt user for password options
 function getPasswordOptions() {
+
 
 }
 
@@ -116,3 +127,4 @@ function writePassword() {
 
 // Add event listener to generate button
 generateBtn.addEventListener('click', writePassword);
+
