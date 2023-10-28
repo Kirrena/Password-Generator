@@ -90,28 +90,54 @@ var upperCasedCharacters = [
 
 // Object to store password elements
 var password={
-  minLength: 8,
-  maxLength: 128,
   specialCharacters,
   numericCharacters,
   lowerCasedCharacters,
   upperCasedCharacters
 };
 
+// Global variable to make sure to access other funtions
+var minLength=8;
+var maxLength=128;
+var length;
+var lowerChar=[];
+
 // Function to prompt user for password options
 function getPasswordOptions() {
+         length=prompt("How long would you like the length of your password to be?");
+         
+         if (length >=minLength && length<+maxLength){
+                        lowerChar=confirm("Do you have any preferences for lower cased characters in your password?");
+                        if (!lowerChar){
+                            for (var i=0 ; i<Math.random()*(length-3)){
+                              
+                            }
+                        }
+         }
+
+          else if (length < minLength){
+                 alert ("Your secure password should be at least 8character!");
+                 getPasswordOptions();
+          } else if(length > maxLength){
+                 alert ("Your secure password should be no more than 128character!");
+                 getPasswordOptions();
+          }
+            else{
+            alert("Please input a number between 8 and 128!");
+            getPasswordOptions();
+           }
 
 
 }
-
+getPasswordOptions();
 // Function for getting a random element from an array
 function getRandom(arr) {
-
+         
 }
 
 // Function to generate password with user input
 function generatePassword() {
-
+    return "me"
 }
 
 // Get references to the #generate element
