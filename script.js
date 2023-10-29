@@ -104,6 +104,10 @@ var lowerChar=[];
 var lowNr;
 var upperChar=[];
 var uppNr;
+var numChar=[];
+var numNr;
+var specChar=[];
+var specNr;
 
 // Function to prompt user for password options for length
 function getPasswordOptions1() {
@@ -130,7 +134,7 @@ function getPasswordOptions1() {
            //user picks if he wants to customize lower cased characters or randomly get generated
        var wantLowerChar=prompt("Do you have any preferences for lower cased characters in your password? If yes, please input how many lower cased character would you like.");
            //if we have got an ideal number for lower cased Characters we ask to input 1 by 1 
-           if(wantLowerChar<length-3 && wantLowerChar>0){
+           if(wantLowerChar<=length-3 && wantLowerChar>0){
               for (lowNr=0; lowNr <wantLowerChar; lowNr++){
                   lowerChar[lowNr] = prompt("Please input the "+ (lowNr+1) +". lower cased character.");
                   if(!password.lowerCasedCharacters.includes(lowerChar[lowNr])){
@@ -157,7 +161,7 @@ function getPasswordOptions1() {
    //user picks if he wants to customize upper cased characters or randomly get generated
   var wantUpperChar=prompt("Do you have any preferences for upper cased characters in your password? If yes, please input how many upper cased character would you like. You have maximum of " + (length-lowNr-2) + "space for it");
   //if we have got an ideal number for upper cased Characters we ask to input 1 by 1 
-  if(wantUpperChar<length-lowNr-2 && wantUpperChar>0){
+  if(wantUpperChar<=length-lowNr-2 && wantUpperChar>0){
      for (uppNr=0; uppNr <wantUpperChar; uppNr++){
          upperChar[uppNr] = prompt("Please input the "+ (uppNr+1) +". upper cased character.");
          if(!password.upperCasedCharacters.includes(upperChar[uppNr])){
@@ -167,7 +171,7 @@ function getPasswordOptions1() {
      }
    }
     // if user doesnt want to input any upper cased we have got false value, then we pick randomly from the upperCasedCharacters property of password object
-   //make sure with length-2 we have room for the other 3options=spec char and numeric
+   //make sure with length-2 we have room for the other 2options=spec char and numeric
    else if (!wantUpperChar){
      for ( uppNr=0 ; uppNr<Math.random()*(length-lowNr-2); uppNr++){
      upperChar[uppNr]=getRandom(password.upperCasedCharacters);
@@ -179,19 +183,45 @@ function getPasswordOptions1() {
      }    
 }         
 
+// Function to prompt user for password options for numeric characters
+function getPasswordOptions4() { 
+  //user picks if he wants to customize numeric characters or randomly get generated
+ var wantNumChar=prompt("Do you have any preferences for numeric characters in your password? If yes, please input how many numeric character would you like. You have maximum of " + (length-lowNr-uppNr-1) + "space for it");
+ //if we have got an ideal number for numeric Characters we ask to input 1 by 1 
+ if(wantNumChar<=length-lowNr-uppNr-1 && wantNumChar>0){
+    for (numNr=0; numNr <wantNumChar; numNr++){
+        numChar[numNr] = prompt("Please input the "+ (numNr+1) +". numeric character.");
+        if(!password.numericCharacters.includes(numChar[numNr])){
+           alert("Please try again with numeric character");
+           getPasswordOptions4();
+        }
+    }
+  }
+   // if user doesnt want to input any numeric we have got false value, then we pick randomly from the numericCharacters property of password object
+  //make sure with length-1 we have at least 1 space for the last option, spec character
+  else if (!wantNumChar){
+    for ( numNr=0 ; numNr<Math.random()*(length-numNr-uppNr-1); numNr++){
+    numChar[numNr]=getRandom(password.numericCharacters);
+   }
+   }
+  else  {
+    alert("Please type a number between 1 and "+ (length-lowNr-uppNr-1));
+    getPasswordOptions4();
+    }    
+}         
+
 getPasswordOptions1();
 getPasswordOptions2();
 getPasswordOptions3();
+getPasswordOptions4();
+
 // Function for getting a random element from an array
-
-
-
 function getRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
          }
 
 
-         console.log(lowerChar);
+
 // Function to generate password with user input
 function generatePassword() {
     return "me"
