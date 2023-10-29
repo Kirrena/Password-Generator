@@ -210,10 +210,33 @@ function getPasswordOptions4() {
     }    
 }         
 
+// Function to prompt user for password options for special characters
+function getPasswordOptions5() { 
+  //user picks if he wants to customize special characters or randomly get generated
+  var wantSpecChar=confirm("Do you have any preferences for special characters in your password? If yes, please input "+ (length-lowNr-uppNr-numNr) + "special character.");
+  //if user doesnt want to pick certain spec characters we fill up the rest of the spaces with spaecial characters
+  if (!wantSpecChar){
+  for ( specNr=0 ; specNr<length-lowNr-uppNr-numNr; specNr++){
+  specChar[specNr]=getRandom(password.specialCharacters);
+ }
+ }
+// else we let the user the fill up the rest of the room with special characters
+ else  {
+  for (specNr=0; specNr <length-lowNr-uppNr-numNr; specNr++){
+        specChar[specNr] = prompt("Please input the "+ (specNr+1) +". special character.");
+        if(!password.specialCharacters.includes(specChar[specNr])){
+           alert("Please try again with special character");
+           getPasswordOptions5();
+        }
+    }
+  }
+}  
+
 getPasswordOptions1();
 getPasswordOptions2();
 getPasswordOptions3();
 getPasswordOptions4();
+getPasswordOptions5();
 
 // Function for getting a random element from an array
 function getRandom(arr) {
@@ -228,6 +251,8 @@ function generatePassword() {
 }
 console.log(lowerChar);
 console.log(upperChar);
+console.log(numChar);
+console.log(specChar);
 // Get references to the #generate element
 var generateBtn = document.querySelector('#generate');
 
