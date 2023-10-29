@@ -102,6 +102,8 @@ var maxLength=128;
 var length;
 var lowerChar=[];
 var lowNr;
+var upperChar=[];
+var uppNr;
 
 // Function to prompt user for password options for length
 function getPasswordOptions1() {
@@ -125,10 +127,10 @@ function getPasswordOptions1() {
 
 // Function to prompt user for password options for lower cased characters
   function getPasswordOptions2() {         
-           // then we can step ahead to see lower cased letters
+           //user picks if he wants to customize lower cased characters or randomly get generated
        var wantLowerChar=prompt("Do you have any preferences for lower cased characters in your password? If yes, please input how many lower cased character would you like.");
            //if we have got an ideal number for lower cased Characters we ask to input 1 by 1 
-           if(wantLowerChar<length-3 && wantLowerChar>=0){
+           if(wantLowerChar<length-3 && wantLowerChar>0){
               for (lowNr=0; lowNr <wantLowerChar; lowNr++){
                   lowerChar[lowNr] = prompt("Please input the "+ (lowNr+1) +". lower cased character.");
                   if(!password.lowerCasedCharacters.includes(lowerChar[lowNr])){
@@ -147,15 +149,42 @@ function getPasswordOptions1() {
             else  {
               alert("Please type a number between 1 and "+ (length-3));
               getPasswordOptions2();
-              }
-            
-                 
+              }    
         }  
 
+ // Function to prompt user for password options for upper cased characters
+ function getPasswordOptions3() { 
+   //user picks if he wants to customize upper cased characters or randomly get generated
+  var wantUpperChar=prompt("Do you have any preferences for upper cased characters in your password? If yes, please input how many upper cased character would you like. You have maximum of " + (length-lowNr-2) + "space for it");
+  //if we have got an ideal number for upper cased Characters we ask to input 1 by 1 
+  if(wantUpperChar<length-lowNr-2 && wantUpperChar>0){
+     for (uppNr=0; uppNr <wantUpperChar; uppNr++){
+         upperChar[uppNr] = prompt("Please input the "+ (uppNr+1) +". upper cased character.");
+         if(!password.upperCasedCharacters.includes(upperChar[uppNr])){
+            alert("Please try again with upper cased character");
+            getPasswordOptions3();
+         }
+     }
+   }
+    // if user doesnt want to input any upper cased we have got false value, then we pick randomly from the upperCasedCharacters property of password object
+   //make sure with length-2 we have room for the other 3options=spec char and numeric
+   else if (!wantUpperChar){
+     for ( uppNr=0 ; uppNr<Math.random()*(length-lowNr-2); uppNr++){
+     upperChar[uppNr]=getRandom(password.upperCasedCharacters);
+    }
+    }
+   else  {
+     alert("Please type a number between 1 and "+ (length-lowNr-2));
+     getPasswordOptions3();
+     }    
+}         
 
 getPasswordOptions1();
 getPasswordOptions2();
+getPasswordOptions3();
 // Function for getting a random element from an array
+
+
 
 function getRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -167,7 +196,8 @@ function getRandom(arr) {
 function generatePassword() {
     return "me"
 }
-
+console.log(lowerChar);
+console.log(upperChar);
 // Get references to the #generate element
 var generateBtn = document.querySelector('#generate');
 
