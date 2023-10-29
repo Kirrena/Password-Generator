@@ -148,7 +148,7 @@ function getPasswordOptions1() {
              // if user doesnt want to input any lower case we have got false value, then we pick randomly from the lowerCasedCharacters property of password object
             //make sure with length-3 we have room for the other 3options
             else if (!wantLowerChar){
-              for ( lowNr=0 ; lowNr<Math.random()*(length-3); lowNr++){
+              for ( lowNr=0 ; lowNr<Math.floor(Math.random()*(length-3)); lowNr++){
               lowerChar[lowNr]=getRandom(password.lowerCasedCharacters);
              }
              }
@@ -175,7 +175,7 @@ function getPasswordOptions1() {
     // if user doesnt want to input any upper cased we have got false value, then we pick randomly from the upperCasedCharacters property of password object
    //make sure with length-2 we have room for the other 2options=spec char and numeric
    else if (!wantUpperChar){
-     for ( uppNr=0 ; uppNr<Math.random()*(length-lowNr-2); uppNr++){
+     for ( uppNr=0 ; uppNr<Math.floor(Math.random()*(length-lowNr-2)); uppNr++){
      upperChar[uppNr]=getRandom(password.upperCasedCharacters);
     }
     }
@@ -202,7 +202,7 @@ function getPasswordOptions4() {
    // if user doesnt want to input any numeric we have got false value, then we pick randomly from the numericCharacters property of password object
   //make sure with length-1 we have at least 1 space for the last option, spec character
   else if (!wantNumChar){
-    for ( numNr=0 ; numNr<Math.random()*(length-numNr-uppNr-1); numNr++){
+    for ( numNr=0 ; numNr<Math.floor(Math.random()*(length-numNr-uppNr-1)); numNr++){
     numChar[numNr]=getRandom(password.numericCharacters);
    }
    }
@@ -212,27 +212,6 @@ function getPasswordOptions4() {
     }    
   }
 
-// Function to prompt user for password options for special characters
-function getPasswordOptions5() { 
-  //user picks if he wants to customize special characters or randomly get generated
-  var wantSpecChar=confirm("Do you have any preferences for special characters in your password? If yes, please input "+ (length-lowNr-uppNr-numNr) + "special character.");
-  //if user doesnt want to pick certain spec characters we fill up the rest of the spaces with spaecial characters
-  if (!wantSpecChar){
-  for ( specNr=0 ; specNr<length-lowNr-uppNr-numNr; specNr++){
-  specChar[specNr]=getRandom(password.specialCharacters);
- }
- }
-// else we let the user the fill up the rest of the room with special characters
- else  {
-  for (specNr=0; specNr <length-lowNr-uppNr-numNr; specNr++){
-        specChar[specNr] = prompt("Please input the "+ (specNr+1) +". special character.");
-        if(!password.specialCharacters.includes(specChar[specNr])){
-           alert("Please try again with special character");
-           getPasswordOptions5();
-        }
-    }
-  } 
-}        
 
 // Function to prompt user for password options for special characters
 function getPasswordOptions5() { 
@@ -256,12 +235,16 @@ function getPasswordOptions5() {
   }
 }  
 
-getPasswordOptions1();
-getPasswordOptions2();
-getPasswordOptions3();
-getPasswordOptions4();
-getPasswordOptions5();
 
+/* For testing
+console.log(lowNr);
+console.log(lowerChar);
+console.log(uppNr);
+console.log(upperChar);
+console.log(numNr);
+console.log(numChar);
+console.log(specNr);
+console.log(specChar);*/
 // Function for getting a random element from an array
 function getRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -271,22 +254,42 @@ function getRandom(arr) {
 
 // Function to generate password with user input
 function generatePassword() {
-    var password=[];
-    return password=lowerChar.concat(upperChar.concat(numChar.concat(specChar)));
+    var combined=[];
+    combined = shuffle(lowerChar.concat(upperChar, numChar,specChar));
+    console.log(combined);
+    return combined.join(' ');
     
 }
+//Code from w3schools to shuffle the elements in an array using Fisher-Yates algorithm
+function shuffle(arr) {
+  for (let i = arr.length -1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i+1));
+    let k = arr[i];
+    arr[i] = arr[j];
+    arr[j] = k;
+  }
+ return arr;
+}; 
+  
 
-console.log(generatePassword());
+
+getPasswordOptions1();
+getPasswordOptions2();
+getPasswordOptions3();
+getPasswordOptions4();
+getPasswordOptions5();
+generatePassword();
+
 
 // Get references to the #generate element
 var generateBtn = document.querySelector('#generate');
 
 // Write password to the #password input
 function writePassword() {
-  var password = generatePassword();
+  var passwordResult = generatePassword();
   var passwordText = document.querySelector('#password');
 
-  passwordText.value = password;
+  passwordText.value = passwordResult;
 }
 
 // Add event listener to generate button
