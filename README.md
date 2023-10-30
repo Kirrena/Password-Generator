@@ -37,12 +37,13 @@ Generate a password when the button is clicked.
 Omar Patel [https://www.linkedin.com/in/omarsalimpatel]
 
 ## Link
-[Password Generator Website]()
+[Password Generator Website](https://kirrena.github.io/Password-Generator/)
 
-URL: 
+URL: https://kirrena.github.io/Password-Generator/
 
 ## Screenshot
-
+![password1](https://github.com/Kirrena/prework-study-guide/assets/74355186/aa620111-934f-4d78-9014-931cb7c25040)
+![password2](https://github.com/Kirrena/prework-study-guide/assets/74355186/e19ac042-6a0d-457d-aa31-084596640817)
 
 ## License
 MIT license
