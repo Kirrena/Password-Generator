@@ -101,13 +101,13 @@ var minLength=8;
 var maxLength=128;
 var length;
 var lowerChar=[];
-var lowNr;
+var lowNr=0;
 var upperChar=[];
-var uppNr;
+var uppNr=0;
 var numChar=[];
-var numNr;
+var numNr=0;
 var specChar=[];
-var specNr;
+var specNr=0;
 
 // Function to prompt user for password options for length
 function getPasswordOptions1() {
@@ -146,9 +146,9 @@ function getPasswordOptions1() {
               }
             }
              // if user doesnt want to input any lower case we have got false value, then we pick randomly from the lowerCasedCharacters property of password object
-            //make sure with length-3 we have room for the other 3options
+            //make sure with length-2 we have room for the other 3options
             else if (!wantLowerChar){
-              for ( lowNr=0 ; lowNr<Math.floor(Math.random()*(length-3)); lowNr++){
+              for ( lowNr=0 ; lowNr<Math.floor(Math.random()*(length-2)+1); lowNr++){
               lowerChar[lowNr]=getRandom(password.lowerCasedCharacters);
              }
              }
@@ -156,7 +156,9 @@ function getPasswordOptions1() {
               alert("Please type a number between 1 and "+ (length-3));
               getPasswordOptions2();
               }    
-        }  
+            return;
+            }
+
 
  // Function to prompt user for password options for upper cased characters
  function getPasswordOptions3() { 
@@ -173,9 +175,9 @@ function getPasswordOptions1() {
      }
    }
     // if user doesnt want to input any upper cased we have got false value, then we pick randomly from the upperCasedCharacters property of password object
-   //make sure with length-2 we have room for the other 2options=spec char and numeric
+   //make sure with length-lowNr-1 we have room for the other 2options=spec char and numeric
    else if (!wantUpperChar){
-     for ( uppNr=0 ; uppNr<Math.floor(Math.random()*(length-lowNr-2)); uppNr++){
+     for ( uppNr=0 ; uppNr<Math.floor(Math.random()*(length-lowNr-1)+1); uppNr++){
      upperChar[uppNr]=getRandom(password.upperCasedCharacters);
     }
     }
@@ -183,7 +185,8 @@ function getPasswordOptions1() {
      alert("Please type a number between 1 and "+ (length-lowNr-2));
      getPasswordOptions3();
      }    
-}         
+    return;
+    }         
 
 // Function to prompt user for password options for numeric characters
 function getPasswordOptions4() { 
@@ -200,9 +203,9 @@ function getPasswordOptions4() {
     }
   }
    // if user doesnt want to input any numeric we have got false value, then we pick randomly from the numericCharacters property of password object
-  //make sure with length-1 we have at least 1 space for the last option, spec character
+ 
   else if (!wantNumChar){
-    for ( numNr=0 ; numNr<Math.floor(Math.random()*(length-numNr-uppNr-1)); numNr++){
+    for ( numNr=0 ; numNr<Math.floor(Math.random()*(length-lowNr-uppNr)+1); numNr++){
     numChar[numNr]=getRandom(password.numericCharacters);
    }
    }
@@ -210,6 +213,7 @@ function getPasswordOptions4() {
     alert("Please type a number between 1 and "+ (length-lowNr-uppNr-1));
     getPasswordOptions4();
     }    
+  return;
   }
 
 
@@ -233,10 +237,10 @@ function getPasswordOptions5() {
         }
     }
   }
+ return;
 }  
 
-
-/* For testing
+/*For testing
 console.log(lowNr);
 console.log(lowerChar);
 console.log(uppNr);
@@ -244,7 +248,9 @@ console.log(upperChar);
 console.log(numNr);
 console.log(numChar);
 console.log(specNr);
-console.log(specChar);*/
+console.log(specChar);
+*/
+
 // Function for getting a random element from an array
 function getRandom(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
@@ -257,6 +263,7 @@ function generatePassword() {
     var combined=[];
     combined = shuffle(lowerChar.concat(upperChar, numChar,specChar));
     console.log(combined);
+    //use join method to display with space between characters
     return combined.join(' ');
     
 }
